@@ -26,9 +26,10 @@ const getArgValue = (key) => {
 const cliPort = getArgValue('--port') || getArgValue('-p');
 const cliHost = getArgValue('--host') || getArgValue('-H');
 
-// Defaults: PORT=3001, HOST=0.0.0.0
-const PORT = parseInt(process.env.PORT || cliPort || '3001', 10);
-const HOST = process.env.HOST || cliHost || '0.0.0.0';
+/* Defaults: PORT=3001, HOST=0.0.0.0
+   Precedence: CLI flags > env vars > defaults */
+const PORT = parseInt(cliPort || process.env.PORT || '3001', 10);
+const HOST = cliHost || process.env.HOST || '0.0.0.0';
 
 const server = app.listen(PORT, HOST, () => {
   console.log(`Server running at http://${HOST}:${PORT}`);

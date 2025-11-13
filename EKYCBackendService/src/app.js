@@ -3,9 +3,15 @@ const express = require('express');
 const routes = require('./routes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('../swagger');
+const morgan = require('morgan');
 
-// Initialize express app
+/* Initialize express app */
 const app = express();
+
+// HTTP request logging (skipped in test environment)
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan(process.env.MORGAN_FORMAT || 'dev'));
+}
 
 app.use(cors({
   origin: '*',
